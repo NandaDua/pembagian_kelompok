@@ -1,0 +1,565 @@
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0
+  }
+
+  body {
+    font-family: var(--font-sans)
+  }
+
+  .wrap {
+    padding: 1.5rem 1rem;
+    max-width: 680px
+  }
+
+  h1 {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 4px
+  }
+
+  .sub {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem
+  }
+
+  .step {
+    display: none;
+    animation: fadeIn 0.2s ease
+  }
+
+  .step.active {
+    display: block
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(6px)
+    }
+
+    to {
+      opacity: 1;
+      transform: none
+    }
+  }
+
+  .field {
+    margin-bottom: 1rem
+  }
+
+  label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 6px
+  }
+
+  input[type=number] {
+    width: 100%;
+    max-width: 220px;
+    height: 36px;
+    padding: 0 10px;
+    font-size: 14px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    color: var(--text-primary);
+    outline: none
+  }
+
+  input[type=number]:focus {
+    border-color: var(--border-accent);
+    box-shadow: 0 0 0 2px var(--bg-accent)
+  }
+
+  .type-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    max-width: 400px;
+    margin-bottom: 1.5rem
+  }
+
+  .type-card {
+    border: 0.5px solid var(--border-strong);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    background: var(--surface-2);
+    transition: border-color 0.15s
+  }
+
+  .type-card:hover {
+    border-color: var(--border-accent)
+  }
+
+  .type-card.selected {
+    border: 2px solid var(--border-accent);
+    background: var(--bg-accent)
+  }
+
+  .type-card .tc-icon {
+    font-size: 22px;
+    color: var(--text-accent);
+    margin-bottom: 6px
+  }
+
+  .type-card .tc-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 2px
+  }
+
+  .type-card .tc-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5
+  }
+
+  .btn {
+    height: 36px;
+    padding: 0 20px;
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    color: var(--text-primary);
+    font-size: 13px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px
+  }
+
+  .btn:hover {
+    background: var(--surface-1)
+  }
+
+  .btn.primary {
+    background: var(--fill-accent);
+    border-color: var(--fill-accent);
+    color: #fff
+  }
+
+  .btn.primary:hover {
+    opacity: 0.9
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 1.25rem;
+    align-items: center;
+    flex-wrap: wrap
+  }
+
+  .student-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 1rem;
+    max-height: 280px;
+    overflow-y: auto;
+    padding-right: 4px
+  }
+
+  .student-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface-1);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px 10px
+  }
+
+  .stu-num {
+    font-size: 12px;
+    color: var(--text-muted);
+    min-width: 18px
+  }
+
+  .stu-input {
+    border: none;
+    background: transparent;
+    font-size: 13px;
+    color: var(--text-primary);
+    outline: none;
+    flex: 1;
+    min-width: 0
+  }
+
+  .stu-score {
+    width: 52px;
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface-2);
+    padding: 2px 6px;
+    font-size: 12px;
+    color: var(--text-primary);
+    text-align: right
+  }
+
+  .stu-score:focus {
+    outline: none;
+    border-color: var(--border-accent)
+  }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    margin-top: 1rem
+  }
+
+  .kgroup {
+    background: var(--surface-2);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 12px
+  }
+
+  .kg-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px
+  }
+
+  .kg-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    flex-shrink: 0
+  }
+
+  .kg-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary)
+  }
+
+  .kg-avg {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px
+  }
+
+  .kg-member {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-top: 0.5px solid var(--border);
+    font-size: 12px;
+    color: var(--text-primary)
+  }
+
+  .kg-rank {
+    font-size: 11px;
+    color: var(--text-muted)
+  }
+
+  .hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px
+  }
+
+  .step-header {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-accent);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 500
+  }
+
+  .pill-het {
+    background: #e6f1fb;
+    color: #185fa5
+  }
+
+  .pill-hom {
+    background: #eaf3de;
+    color: #3b6d11
+  }
+
+  .summary-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    align-items: center
+  }
+
+  .sort-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px
+  }
+
+  .sort-btn {
+    height: 28px;
+    padding: 0 12px;
+    font-size: 12px;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    color: var(--text-secondary);
+    cursor: pointer
+  }
+
+  .sort-btn:hover {
+    background: var(--surface-1);
+    color: var(--text-primary)
+  }
+</style>
+
+<div class="wrap">
+  <h2 class="sr-only">Aplikasi pembagi kelompok siswa otomatis</h2>
+  <h1><i class="ti ti-users-group" aria-hidden="true"
+      style="font-size:18px;vertical-align:-2px;margin-right:6px;color:var(--text-accent)"></i>Pembagi Kelompok</h1>
+  <p class="sub">Bagi siswa ke kelompok heterogen atau homogen secara otomatis</p>
+
+  <!-- Step 1: jumlah kelompok -->
+  <div class="step active" id="step1">
+    <p class="step-header">Langkah 1 — Pengaturan kelompok</p>
+    <div class="field">
+      <label>Jumlah kelompok yang diinginkan</label>
+      <input type="number" id="numGroups" min="2" max="20" value="4" placeholder="contoh: 4">
+      <p class="hint">Masukkan angka 2–20</p>
+    </div>
+    <div class="field">
+      <label>Jumlah siswa</label>
+      <input type="number" id="numStudents" min="2" max="100" value="20" placeholder="contoh: 20">
+      <p class="hint">Masukkan angka 2–100</p>
+    </div>
+    <div class="btn-row">
+      <button class="btn primary" onclick="goStep2()"><i class="ti ti-arrow-right" aria-hidden="true"></i>
+        Lanjut</button>
+    </div>
+  </div>
+
+  <!-- Step 2: jenis kelompok -->
+  <div class="step" id="step2">
+    <p class="step-header">Langkah 2 — Jenis kelompok</p>
+    <div class="type-grid">
+      <div class="type-card" id="card-het" onclick="selectType('heterogen')">
+        <div class="tc-icon"><i class="ti ti-arrows-shuffle" aria-hidden="true"></i></div>
+        <div class="tc-title">Heterogen</div>
+        <div class="tc-desc">Kemampuan setiap kelompok merata (metode ular / snake method)</div>
+      </div>
+      <div class="type-card" id="card-hom" onclick="selectType('homogen')">
+        <div class="tc-icon"><i class="ti ti-sort-ascending" aria-hidden="true"></i></div>
+        <div class="tc-title">Homogen</div>
+        <div class="tc-desc">Kelompok diisi siswa dengan kemampuan setara (berurutan)</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn" onclick="goStep(1)"><i class="ti ti-arrow-left" aria-hidden="true"></i> Kembali</button>
+      <button class="btn primary" onclick="goStep3()"><i class="ti ti-arrow-right" aria-hidden="true"></i>
+        Lanjut</button>
+    </div>
+  </div>
+
+  <!-- Step 3: input nama & skor -->
+  <div class="step" id="step3">
+    <p class="step-header">Langkah 3 — Nama & nilai siswa</p>
+    <div class="sort-row">
+      <span style="font-size:12px;color:var(--text-secondary)">Isi nama & nilai, lalu klik:</span>
+      <button class="sort-btn" onclick="sortByScore()"><i class="ti ti-sort-descending" aria-hidden="true"
+          style="font-size:13px;vertical-align:-1px"></i> Urutkan nilai</button>
+    </div>
+    <div class="student-grid" id="studentGrid"></div>
+    <div class="btn-row">
+      <button class="btn" onclick="goStep(2)"><i class="ti ti-arrow-left" aria-hidden="true"></i> Kembali</button>
+      <button class="btn primary" onclick="generateGroups()"><i class="ti ti-sparkles" aria-hidden="true"></i> Buat
+        kelompok</button>
+    </div>
+  </div>
+
+  <!-- Step 4: hasil -->
+  <div class="step" id="step4">
+    <p class="step-header">Hasil kelompok</p>
+    <div class="summary-bar" id="summaryBar"></div>
+    <div class="result-grid" id="resultGrid"></div>
+    <div class="btn-row" style="margin-top:1.5rem">
+      <button class="btn" onclick="goStep(3)"><i class="ti ti-arrow-left" aria-hidden="true"></i> Ubah data</button>
+      <button class="btn" onclick="goStep(1)"><i class="ti ti-refresh" aria-hidden="true"></i> Mulai ulang</button>
+      <button class="btn" onclick="printResult()"><i class="ti ti-printer" aria-hidden="true"></i> Cetak</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let groupType = '';
+  let numG = 4, numS = 20;
+
+  const colors = [
+    { bg: '#EEEDFE', text: '#3C3489', dot: '#534AB7' },
+    { bg: '#E1F5EE', text: '#085041', dot: '#0F6E56' },
+    { bg: '#FAEEDA', text: '#633806', dot: '#854F0B' },
+    { bg: '#FAECE7', text: '#712B13', dot: '#993C1D' },
+    { bg: '#E6F1FB', text: '#0C447C', dot: '#185FA5' },
+    { bg: '#EAF3DE', text: '#27500A', dot: '#3B6D11' },
+    { bg: '#FBEAF0', text: '#72243E', dot: '#993556' },
+    { bg: '#FCEBEB', text: '#791F1F', dot: '#A32D2D' },
+    { bg: '#F1EFE8', text: '#444441', dot: '#5F5E5A' },
+    { bg: '#EEF6FF', text: '#0C447C', dot: '#378ADD' }
+  ];
+
+  const groupLabels = 'ABCDEFGHIJKLMNOPQRST'.split('');
+
+  function goStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step' + n).classList.add('active');
+  }
+
+  function goStep2() {
+    numG = parseInt(document.getElementById('numGroups').value) || 4;
+    numS = parseInt(document.getElementById('numStudents').value) || 20;
+    if (numG < 2 || numG > 20 || numS < 2 || numS > 100 || numG > numS) {
+      alert('Pastikan jumlah kelompok 2–20, jumlah siswa 2–100, dan jumlah siswa ≥ jumlah kelompok.');
+      return;
+    }
+    goStep(2);
+  }
+
+  function selectType(t) {
+    groupType = t;
+    document.getElementById('card-het').classList.toggle('selected', t === 'heterogen');
+    document.getElementById('card-hom').classList.toggle('selected', t === 'homogen');
+  }
+
+  function goStep3() {
+    if (!groupType) { alert('Pilih jenis kelompok terlebih dahulu.'); return; }
+    buildStudentGrid();
+    goStep(3);
+  }
+
+  function buildStudentGrid() {
+    const grid = document.getElementById('studentGrid');
+    const existing = grid.querySelectorAll('.student-row');
+    const oldData = [];
+    existing.forEach(r => {
+      oldData.push({ name: r.querySelector('.stu-input').value, score: r.querySelector('.stu-score').value });
+    });
+    grid.innerHTML = '';
+    for (let i = 0; i < numS; i++) {
+      const row = document.createElement('div');
+      row.className = 'student-row';
+      const n = oldData[i]?.name || '';
+      const s = oldData[i]?.score || '';
+      row.innerHTML = `<span class="stu-num">${i + 1}</span><input class="stu-input" placeholder="Nama siswa ${i + 1}" value="${n}" /><input type="number" class="stu-score" placeholder="Nilai" value="${s}" min="0" max="100" />`;
+      grid.appendChild(row);
+    }
+  }
+
+  function getStudents() {
+    const rows = document.querySelectorAll('.student-row');
+    return Array.from(rows).map((r, i) => ({
+      name: r.querySelector('.stu-input').value.trim() || `Siswa ${i + 1}`,
+      score: parseFloat(r.querySelector('.stu-score').value) || 0
+    }));
+  }
+
+  function sortByScore() {
+    const students = getStudents().sort((a, b) => b.score - a.score);
+    const rows = document.querySelectorAll('.student-row');
+    rows.forEach((r, i) => {
+      r.querySelector('.stu-input').value = students[i].name;
+      r.querySelector('.stu-score').value = students[i].score || '';
+    });
+  }
+
+  function generateGroups() {
+    const students = getStudents().sort((a, b) => b.score - a.score);
+    let groups = Array.from({ length: numG }, () => []);
+
+    if (groupType === 'heterogen') {
+      // snake method
+      let dir = 1, col = 0;
+      students.forEach((s, i) => {
+        groups[col].push(s);
+        col += dir;
+        if (col >= numG) { col = numG - 1; dir = -1; }
+        else if (col < 0) { col = 0; dir = 1; }
+      });
+    } else {
+      // homogen: sequential
+      const perGroup = Math.ceil(students.length / numG);
+      students.forEach((s, i) => groups[Math.floor(i / perGroup)].push(s));
+    }
+
+    renderResults(groups);
+    goStep(4);
+  }
+
+  function renderResults(groups) {
+    const bar = document.getElementById('summaryBar');
+    const grid = document.getElementById('resultGrid');
+    const typeLabel = groupType === 'heterogen'
+      ? '<span class="pill pill-het"><i class="ti ti-arrows-shuffle" style="font-size:11px"></i> Heterogen</span>'
+      : '<span class="pill pill-hom"><i class="ti ti-sort-ascending" style="font-size:11px"></i> Homogen</span>';
+    bar.innerHTML = `${typeLabel}<span style="font-size:13px;color:var(--text-secondary)">${numG} kelompok · ${numS} siswa</span>`;
+    grid.innerHTML = '';
+
+    groups.forEach((g, gi) => {
+      if (!g.length) return;
+      const c = colors[gi % colors.length];
+      const avg = g.length ? (g.reduce((a, s) => a + s.score, 0) / g.length).toFixed(1) : '-';
+      const card = document.createElement('div');
+      card.className = 'kgroup';
+      let membersHtml = g.map((s, si) => {
+        const rank = document.querySelectorAll('.student-row')
+          ? Array.from(document.querySelectorAll('.stu-input')).findIndex(el => el.value.trim() === s.name || (!s.name && el.value === ``)) + 1
+          : si + 1;
+        return `<div class="kg-member"><span>${s.name}</span><span class="kg-rank">${s.score}</span></div>`;
+      }).join('');
+      card.innerHTML = `
+      <div class="kg-head">
+        <div class="kg-badge" style="background:${c.bg};color:${c.text}">${groupLabels[gi]}</div>
+        <div>
+          <div class="kg-title">Kelompok ${groupLabels[gi]}</div>
+          <div class="kg-avg">Rata-rata: ${avg}</div>
+        </div>
+      </div>
+      ${membersHtml}
+    `;
+      grid.appendChild(card);
+    });
+  }
+
+  function printResult() {
+    const content = document.getElementById('resultGrid').innerHTML;
+    const title = `Kelompok ${groupType.charAt(0).toUpperCase() + groupType.slice(1)}`;
+    const w = window.open('', '_blank');
+    w.document.write(`<!DOCTYPE html><html><head><title>${title}</title>
+  <style>body{font-family:sans-serif;padding:20px}h2{margin-bottom:16px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}.kgroup{border:1px solid #ddd;border-radius:10px;padding:12px}.kg-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}.kg-badge{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600}.kg-title{font-size:13px;font-weight:600}.kg-avg{font-size:11px;color:#777}.kg-member{display:flex;justify-content:space-between;border-top:1px solid #eee;padding:3px 0;font-size:12px}.kg-rank{color:#999}</style>
+  </head><body><h2>${title} — ${numG} Kelompok</h2><div class="grid">${content}</div></body></html>`);
+    w.document.close();
+    w.print();
+  }
+</script>
